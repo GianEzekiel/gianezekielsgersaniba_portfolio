@@ -15,50 +15,6 @@ export default function Hero() {
       }}
     >
       <div className="wrap" style={{ position: "relative" }}>
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 10,
-            border: "1px solid var(--line)",
-            borderRadius: 999,
-            padding: "8px 18px",
-            marginBottom: 32,
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.85rem",
-            fontWeight: 600,
-          }}
-        >
-          <span
-            style={{
-              position: "relative",
-              width: 8,
-              height: 8,
-              display: "inline-block",
-            }}
-          >
-            <span
-              style={{
-                position: "absolute",
-                inset: 0,
-                borderRadius: "50%",
-                background: "var(--accent)",
-                boxShadow: "0 0 8px var(--accent)",
-              }}
-            />
-            <span
-              className="status-pulse"
-              style={{
-                position: "absolute",
-                inset: 0,
-                borderRadius: "50%",
-                background: "var(--accent)",
-              }}
-            />
-          </span>
-          Available for Work
-        </div>
-
         <h1
           style={{
             fontFamily: "var(--font-display)",
@@ -81,7 +37,7 @@ export default function Hero() {
             marginBottom: 20,
           }}
         >
-          Backend Developer &amp; Systems Researcher
+          Software Engineer &amp; Data Engineer
         </p>
 
         <p
