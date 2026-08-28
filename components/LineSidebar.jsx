@@ -41,7 +41,8 @@ const LineSidebar = ({
   defaultActive = null,
   onItemClick,
   className = ''
-}) => {
+}) =>
+{
   const listRef = useRef(null);
   const itemRefs = useRef([]);
   const targetsRef = useRef([]);
@@ -58,7 +59,8 @@ const LineSidebar = ({
   // Single rAF loop that eases every item's --effect toward its target using
   // frame-rate independent exponential smoothing, so color, shift and scale
   // all move together without staggering CSS transitions.
-  const runFrame = useCallback(now => {
+  const runFrame = useCallback(now =>
+  {
     const dt = Math.min((now - lastRef.current) / 1000, 0.05);
     lastRef.current = now;
     const tau = Math.max(smoothingRef.current, 1) / 1000;
@@ -66,7 +68,8 @@ const LineSidebar = ({
 
     let moving = false;
     const items = itemRefs.current;
-    for (let i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++)
+    {
       const el = items[i];
       if (!el) continue;
       const target = Math.max(targetsRef.current[i] || 0, activeRef.current === i ? 1 : 0);
@@ -82,22 +85,26 @@ const LineSidebar = ({
     rafRef.current = moving ? requestAnimationFrame(runFrame) : null;
   }, []);
 
-  const startLoop = useCallback(() => {
-    if (rafRef.current != null) {
+  const startLoop = useCallback(() =>
+  {
+    if (rafRef.current != null)
+    {
       cancelAnimationFrame(rafRef.current);
     }
     lastRef.current = performance.now();
     rafRef.current = requestAnimationFrame(runFrame);
   }, [runFrame]);
 
-  const handlePointerMove = useCallback(e => {
+  const handlePointerMove = useCallback(e =>
+  {
     const list = listRef.current;
     if (!list) return;
     const rect = list.getBoundingClientRect();
     const pointerY = e.clientY - rect.top;
     const ease = FALLOFF_CURVES[falloff] ?? FALLOFF_CURVES.linear;
     const items = itemRefs.current;
-    for (let i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++)
+    {
       const el = items[i];
       if (!el) continue;
       const center = el.offsetTop + el.offsetHeight / 2;
@@ -107,31 +114,34 @@ const LineSidebar = ({
     startLoop();
   }, [falloff, proximityRadius, startLoop]);
 
-  const handlePointerLeave = useCallback(() => {
+  const handlePointerLeave = useCallback(() =>
+  {
     targetsRef.current = targetsRef.current.map(() => 0);
     startLoop();
   }, [startLoop]);
 
-  const handleClick = useCallback((index, label) => {
+  const handleClick = useCallback((index, label) =>
+  {
     setActiveIndex(index);
     onItemClick?.(index, label);
   }, [onItemClick]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     startLoop();
   }, [activeIndex, startLoop]);
 
-  useEffect(() => () => {
+  useEffect(() => () =>
+  {
     if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
     rafRef.current = null;
   }, []);
 
   const tickClass = showMarker
-    ? `after:absolute after:left-[calc(-1*var(--marker-length)-var(--marker-gap))] after:top-[calc(100%+var(--item-gap)/2)] after:h-px after:opacity-50 after:content-[''] last:after:content-none after:[background-color:var(--marker-color)] after:[width:calc(var(--marker-length)*var(--tick-scale))] ${
-        scaleTick
-          ? "after:origin-left after:[transform:translateY(-50%)_scaleX(calc(0.7+var(--effect,0)*0.6))]"
-          : 'after:-translate-y-1/2'
-      }`
+    ? `after:absolute after:left-[calc(-1*var(--marker-length)-var(--marker-gap))] after:top-[calc(100%+var(--item-gap)/2)] after:h-px after:opacity-50 after:content-[''] last:after:content-none after:[background-color:var(--marker-color)] after:[width:calc(var(--marker-length)*var(--tick-scale))] ${scaleTick
+      ? "after:origin-left after:[transform:translateY(-50%)_scaleX(calc(0.7+var(--effect,0)*0.6))]"
+      : 'after:-translate-y-1/2'
+    }`
     : '';
 
   return (
@@ -157,7 +167,8 @@ const LineSidebar = ({
         {items.map((label, index) => (
           <li
             key={`${label}-${index}`}
-            ref={el => {
+            ref={el =>
+            {
               itemRefs.current[index] = el;
             }}
             aria-current={activeIndex === index ? 'true' : undefined}
