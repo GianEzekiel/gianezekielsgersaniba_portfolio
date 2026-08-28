@@ -16,11 +16,26 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
+      # --- TEMPORARY DEBUG STEP ---
+      # Remove this once things are working. Confirms the token's identity
+      # and whether it can actually see the project by name.
+      - name: Debug Vercel Auth
+        run: |
+          echo "Checking token identity..."
+          vercel whoami --token=${{ secrets.VERCEL_TOKEN }}
+          echo "Checking visible projects..."
+          vercel project ls --token=${{ secrets.VERCEL_TOKEN }}
+        continue-on-error: true
+
       - name: Pull Vercel Environment Information
+        # If your project lives in a subfolder (monorepo), add:
+        # working-directory: ./apps/web
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
+        # working-directory: ./apps/web
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts to Vercel
+        # working-directory: ./apps/web
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
